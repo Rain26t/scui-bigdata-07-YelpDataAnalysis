@@ -2,7 +2,7 @@
 from pyspark.sql.functions import col, count
 
 business = spark.table("business")
-
+#sabah is great
 us_states = [
     'AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA',
     'KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ',
