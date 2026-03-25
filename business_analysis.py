@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, count, trim, avg, round
+from pyspark.sql.functions import col, count, trim, avg, round, split, explode
 
 
 # =========================================================
@@ -119,6 +119,32 @@ def task4_top_merchants_with_ratings(spark):
 
 
 # =========================================================
+# Task 5
+# Top 20 Categories by Number of Businesses
+# =========================================================
+def task5_count_categories(spark):
+    from pyspark.sql.functions import split, explode, trim, count
+
+    business_df = spark.read.json("/user/bigdata/yelp/business/*")
+
+    category_counts = (
+        business_df
+        .filter(col("categories").isNotNull())
+        .filter(trim(col("categories")) != "")
+        .select(explode(split(col("categories"), ",")).alias("category"))
+        .select(trim(col("category")).alias("category"))
+        .filter(col("category") != "")
+        .groupBy("category")
+        .agg(count("*").alias("business_count"))
+        .orderBy(col("business_count").desc())
+        .limit(20)
+    )
+
+    print("\n=== Task 5: Top 20 Categories by Number of Businesses ===\n")
+    category_counts.show(20, False)
+
+
+# =========================================================
 # Main Function
 # =========================================================
 def main():
@@ -135,6 +161,7 @@ def main():
     task2_top_cities(spark)
     task3_top_states(spark)
     task4_top_merchants_with_ratings(spark)
+    task5_count_categories(spark)
 
     spark.stop()
 
