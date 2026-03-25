@@ -119,15 +119,15 @@ def task4_top_merchants_with_ratings(spark):
 
 
 # =========================================================
-# Task 5
-# Top 20 Categories by Number of Businesses
+# Task 6
+# Identify the top 10 most frequent categories and their count
 # =========================================================
-def task5_count_categories(spark):
+def task6_top_categories(spark):
     from pyspark.sql.functions import split, explode, trim, count
 
     business_df = spark.read.json("/user/bigdata/yelp/business/*")
 
-    category_counts = (
+    result = (
         business_df
         .filter(col("categories").isNotNull())
         .filter(trim(col("categories")) != "")
@@ -137,11 +137,11 @@ def task5_count_categories(spark):
         .groupBy("category")
         .agg(count("*").alias("business_count"))
         .orderBy(col("business_count").desc())
-        .limit(20)
+        .limit(10)
     )
 
-    print("\n=== Task 5: Top 20 Categories by Number of Businesses ===\n")
-    category_counts.show(20, False)
+    print("\n=== Task 6: Top 10 Most Frequent Categories and Their Count ===\n")
+    result.show(10, False)
 
 
 # =========================================================
@@ -156,12 +156,11 @@ def main():
         .getOrCreate()
     )
 
-    # Run all tasks
     task1_top_merchants(spark)
     task2_top_cities(spark)
     task3_top_states(spark)
     task4_top_merchants_with_ratings(spark)
-    task5_count_categories(spark)
+    task6_top_categories(spark)
 
     spark.stop()
 
