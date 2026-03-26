@@ -60,3 +60,16 @@ def run_ii5():
         .withColumn("silent_proportion", F.col("silent_users") / F.col("total_users")) \
         .orderBy("year")
     z.show(silent_users)
+
+# =============================================================================
+# II. 6. Yearly stats: New users, total reviews, elite users, and fans
+# =============================================================================
+def run_ii6():
+    yearly_stats = user_df.withColumn("year", F.year("user_yelping_since")) \
+        .groupBy("year").agg(
+            F.count("user_id").alias("new_users"),
+            F.sum("user_review_count").alias("total_reviews"),
+            F.sum(F.when((F.col("user_elite").isNotNull()) & (F.col("user_elite") != ""), 1).otherwise(0)).alias("elite_users"),
+            F.sum("user_fans").alias("total_fans")
+        ).orderBy("year")
+    z.show(yearly_stats)
