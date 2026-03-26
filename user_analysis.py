@@ -46,3 +46,17 @@ def run_ii4():
         .withColumn("elite_to_regular_ratio", F.col("elite_count") / F.col("regular_count")) \
         .orderBy("year")
     z.show(elite_ratio)
+
+# =============================================================================
+# II. 5. Proportion of total users and silent users (0 reviews) each year
+# =============================================================================
+def run_ii5():
+    silent_users = user_df.withColumn("year", F.year("user_yelping_since")) \
+        .withColumn("is_silent", F.when(F.col("user_review_count") == 0, 1).otherwise(0)) \
+        .groupBy("year").agg(
+            F.count("user_id").alias("total_users"),
+            F.sum("is_silent").alias("silent_users")
+        ) \
+        .withColumn("silent_proportion", F.col("silent_users") / F.col("total_users")) \
+        .orderBy("year")
+    z.show(silent_users)
