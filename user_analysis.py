@@ -23,3 +23,11 @@ def run_ii2():
     top_reviewers = user_df.select(F.col("user_name").alias("name"), "user_review_count") \
         .orderBy(F.desc("user_review_count"))
     z.show(top_reviewers.limit(20))
+
+# =============================================================================
+# II. 3. Identify the most popular users based on user_fans
+# =============================================================================
+def run_ii3():
+    popular_users = user_df.select(F.col("user_name").alias("name"), "user_fans") \
+        .orderBy(F.desc("user_fans"))
+    z.show(popular_users.limit(20))
