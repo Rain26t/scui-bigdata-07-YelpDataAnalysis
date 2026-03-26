@@ -32,3 +32,14 @@ def run_iv3():
         .orderBy(F.desc("count"))
     z.show(top_5_star.limit(20))
 
+# =============================================================================
+# IV. 4: Identify the top 10 cities with the highest average star ratings
+# Filtered for cities with >50 businesses
+# =============================================================================
+def run_iv4():
+    top_cities = biz_df.groupBy("city") \
+        .agg(F.avg("stars").alias("avg_rating"), F.count("business_id").alias("biz_count")) \
+        .filter("biz_count > 50") \
+        .orderBy(F.desc("avg_rating"))
+    z.show(top_cities.limit(10))
+
