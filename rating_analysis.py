@@ -43,3 +43,13 @@ def run_iv4():
         .orderBy(F.desc("avg_rating"))
     z.show(top_cities.limit(10))
 
+# =============================================================================
+# IV. 5: Calculate business performance vs. local cuisine average
+# =============================================================================
+def run_iv5():
+    window_spec = Window.partitionBy("city", "categories")
+    diff_df = biz_df.withColumn("cat_avg", F.avg("stars").over(window_spec)) \
+        .withColumn("differential", F.col("stars") - F.col("cat_avg")) \
+        .select("name", "city", "categories", "stars", "differential")
+    z.show(diff_df.limit(20))
+
