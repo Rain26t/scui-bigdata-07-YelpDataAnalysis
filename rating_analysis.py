@@ -53,3 +53,25 @@ def run_iv5():
         .select("name", "city", "categories", "stars", "differential")
     z.show(diff_df.limit(20))
 
+
+# =============================================================================
+# IV. 6: Compare weekend vs. weekday satisfaction for "Nightlife"
+# =============================================================================
+def run_iv6():
+    nightlife_sat = review_df.join(biz_df.filter(F.col("categories").contains("Nightlife")),
+                                   review_df.rev_business_id == biz_df.business_id) \
+        .withColumn("period", F.when(F.date_format("rev_date", "EEEE").isin("Saturday", "Sunday"), "Weekend").otherwise(
+        "Weekday")) \
+        .groupBy("period").agg(F.avg("rev_stars").alias("avg_satisfaction"))
+    z.show(nightlife_sat)
+
+
+# --- EXECUTION ---
+# Uncomment the line you want to run
+run_iv1()
+# run_iv2()
+# run_iv3()
+# run_iv4()
+# run_iv5()
+# run_iv6()
+
