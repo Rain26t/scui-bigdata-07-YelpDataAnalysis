@@ -31,3 +31,18 @@ def run_ii3():
     popular_users = user_df.select(F.col("user_name").alias("name"), "user_fans") \
         .orderBy(F.desc("user_fans"))
     z.show(popular_users.limit(20))
+
+# =============================================================================
+# II. 4. Calculate the ratio of elite users to regular users each year
+# =============================================================================
+def run_ii4():
+    elite_ratio = user_df.withColumn("year", F.year("user_yelping_since")) \
+        .withColumn("is_elite", F.when((F.col("user_elite").isNotNull()) & (F.col("user_elite") != ""), 1).otherwise(0)) \
+        .groupBy("year").agg(
+            F.sum("is_elite").alias("elite_count"),
+            F.count("user_id").alias("total_users")
+        ) \
+        .withColumn("regular_count", F.col("total_users") - F.col("elite_count")) \
+        .withColumn("elite_to_regular_ratio", F.col("elite_count") / F.col("regular_count")) \
+        .orderBy("year")
+    z.show(elite_ratio)
