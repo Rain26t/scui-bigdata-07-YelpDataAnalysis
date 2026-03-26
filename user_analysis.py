@@ -73,3 +73,16 @@ def run_ii6():
             F.sum("user_fans").alias("total_fans")
         ).orderBy("year")
     z.show(yearly_stats)
+
+# =============================================================================
+# II. 7. Early adopters: First 5 reviews for 4.5+ star businesses
+# =============================================================================
+def run_ii7():
+    successful_biz = biz_df.filter((F.col("stars") >= 4.5) & (F.col("review_count") > 100))
+    window_spec = Window.partitionBy("rev_business_id").orderBy("rev_date")
+    early_reviews = rev_df.withColumn("review_rank", F.row_number().over(window_spec)) \
+        .filter(F.col("review_rank") <= 5)
+
+    tastemakers = early_reviews.join(successful_biz, early_reviews.rev_business_id == successful_biz.business_id) \
+        .groupBy("rev_user_id").count().orderBy(F.desc("count"))
+    z.show(tastemakers.limit(20))
