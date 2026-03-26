@@ -22,3 +22,13 @@ def run_iv2():
         .groupBy("day_name").count().orderBy(F.desc("count"))
     z.show(weekly_freq)
 
+# =============================================================================
+# IV. 3: Find businesses with the highest volume of 5-star feedback
+# =============================================================================
+def run_iv3():
+    top_5_star = review_df.filter("rev_stars = 5") \
+        .groupBy("rev_business_id").count() \
+        .join(biz_df.select("business_id", "name"), review_df.rev_business_id == biz_df.business_id) \
+        .orderBy(F.desc("count"))
+    z.show(top_5_star.limit(20))
+
