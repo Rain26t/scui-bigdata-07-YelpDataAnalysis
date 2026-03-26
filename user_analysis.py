@@ -15,3 +15,11 @@ def run_ii1():
     users_per_year = user_df.withColumn("join_year", F.year("user_yelping_since")) \
         .groupBy("join_year").count().orderBy("join_year")
     z.show(users_per_year)
+
+# =============================================================================
+# II. 2. Identify top reviewers based on user_review_count
+# =============================================================================
+def run_ii2():
+    top_reviewers = user_df.select(F.col("user_name").alias("name"), "user_review_count") \
+        .orderBy(F.desc("user_review_count"))
+    z.show(top_reviewers.limit(20))
