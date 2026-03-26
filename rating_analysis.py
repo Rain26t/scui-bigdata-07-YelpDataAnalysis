@@ -13,3 +13,12 @@ biz_df = spark.table("business")
 def run_iv1():
     rating_dist = review_df.groupBy("rev_stars").count().orderBy("rev_stars")
     z.show(rating_dist)
+
+# =============================================================================
+# IV. 2: Identify which days of the week users are most likely to leave reviews
+# =============================================================================
+def run_iv2():
+    weekly_freq = review_df.withColumn("day_name", F.date_format("rev_date", "EEEE")) \
+        .groupBy("day_name").count().orderBy(F.desc("count"))
+    z.show(weekly_freq)
+
