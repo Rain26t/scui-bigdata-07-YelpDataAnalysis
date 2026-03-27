@@ -15,3 +15,13 @@ def run_iii1():
     reviews_per_year = review_df.withColumn("year", F.year("rev_date")) \
         .groupBy("year").count().orderBy("year")
     z.show(reviews_per_year)
+# =============================================================================
+# III. 2. Count the number of useful, funny, and cool review votes
+# =============================================================================
+def run_iii2():
+    engagement_stats = review_df.select(
+        F.sum("rev_useful").alias("Total_Useful"),
+        F.sum("rev_funny").alias("Total_Funny"),
+        F.sum("rev_cool").alias("Total_Cool")
+    )
+    z.show(engagement_stats)
