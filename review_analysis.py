@@ -25,3 +25,17 @@ def run_iii2():
         F.sum("rev_cool").alias("Total_Cool")
     )
     z.show(engagement_stats)
+
+    # =============================================================================
+    # III. 3. Rank users by the total number of reviews each year (Top 10)
+    # =============================================================================
+    def run_iii3():
+        yearly_user_counts = review_df.withColumn("year", F.year("rev_date")) \
+            .groupBy("rev_user_id", "year").count()
+
+        window_spec = Window.partitionBy("year").orderBy(F.desc("count"))
+        ranked_users = yearly_user_counts.withColumn("rank", F.row_number().over(window_spec)) \
+            .join(user_df, yearly_user_counts.rev_user_id == user_df.user_id) \
+            .select("year", "user_name", "count", "rank") \
+            .filter("rank <= 10").orderBy("year", "rank")
+        z.show(ranked_users)
