@@ -39,3 +39,14 @@ def run_iii2():
             .select("year", "user_name", "count", "rank") \
             .filter("rank <= 10").orderBy("year", "rank")
         z.show(ranked_users)
+
+        # =============================================================================
+        # III. 4: Extract the Top 20 most common words (Length > 3, No Stopwords)
+        # =============================================================================
+        def run_iii4():
+            stops = ["the", "and", "was", "for", "that", "with", "this", "they", "have", "were"]
+            top_20_words = review_df.withColumn("word", F.explode(F.split(F.lower(F.col("rev_text")), "\\s+"))) \
+                .filter(~F.col("word").isin(stops)) \
+                .filter(F.length("word") > 3) \
+                .groupBy("word").count().orderBy(F.desc("count")).limit(20)
+            z.show(top_20_words)
