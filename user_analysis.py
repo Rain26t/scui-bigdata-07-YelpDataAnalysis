@@ -97,3 +97,16 @@ def run_ii8():
         .filter(F.col("years_on_platform").isin(0, 2)) \
         .groupBy("rev_user_id", "years_on_platform").agg(F.avg("rev_stars").alias("avg_stars"))
     z.show(evolution.limit(50))
+
+# =============================================================================
+# II. 9. Dining diversity: Distinct cuisine categories reviewed
+# =============================================================================
+def run_ii9():
+    adventurous_eaters = rev_df.join(biz_df, rev_df.rev_business_id == biz_df.business_id) \
+        .groupBy("rev_user_id").agg(
+            F.countDistinct("categories").alias("distinct_cuisines"),
+            F.count("review_id").alias("total_reviews")
+        ) \
+        .filter(F.col("total_reviews") >= 20) \
+        .orderBy(F.desc("distinct_cuisines"))
+    z.show(adventurous_eaters.limit(50))
