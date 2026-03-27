@@ -86,3 +86,14 @@ def run_ii7():
     tastemakers = early_reviews.join(successful_biz, early_reviews.rev_business_id == successful_biz.business_id) \
         .groupBy("rev_user_id").count().orderBy(F.desc("count"))
     z.show(tastemakers.limit(20))
+
+# =============================================================================
+# II. 8. User rating evolution: First year vs Third year
+# =============================================================================
+def run_ii8():
+    user_join_date = user_df.select("user_id", "user_yelping_since")
+    evolution = rev_df.join(user_join_date, rev_df.rev_user_id == user_join_date.user_id) \
+        .withColumn("years_on_platform", F.year("rev_date") - F.year("user_yelping_since")) \
+        .filter(F.col("years_on_platform").isin(0, 2)) \
+        .groupBy("rev_user_id", "years_on_platform").agg(F.avg("rev_stars").alias("avg_stars"))
+    z.show(evolution.limit(50))
