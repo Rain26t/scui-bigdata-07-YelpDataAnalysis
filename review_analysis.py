@@ -50,3 +50,32 @@ def run_iii2():
                 .filter(F.length("word") > 3) \
                 .groupBy("word").count().orderBy(F.desc("count")).limit(20)
             z.show(top_20_words)
+
+            # =============================================================================
+            # III. 5 & 6: Top 10 words from Positive (>3 stars) vs Negative (<=3 stars)
+            # =============================================================================
+            def run_iii5_pos():
+                top_pos_words = review_df.filter("rev_stars > 3") \
+                    .withColumn("word", F.explode(F.split(F.lower(F.col("rev_text")), "\\s+"))) \
+                    .filter(F.length("word") > 4) \
+                    .groupBy("word").count().orderBy(F.desc("count")).limit(10)
+                z.show(top_pos_words)
+
+            def run_iii6_neg():
+                top_neg_words = review_df.filter("rev_stars <= 3") \
+                    .withColumn("word", F.explode(F.split(F.lower(F.col("rev_text")), "\\s+"))) \
+                    .filter(F.length("word") > 4) \
+                    .groupBy("word").count().orderBy(F.desc("count")).limit(10)
+                z.show(top_neg_words)
+
+            # =============================================================================
+            # III. 7: Word cloud analysis (Top 100 Descriptive Words)
+            # =============================================================================
+            def run_iii7():
+                stop_actions = ["have", "went", "came", "give", "take", "said", "asked", "told", "were", "they"]
+                word_cloud_data = review_df.withColumn("word", F.explode(F.split(F.lower(F.col("rev_text")), "\\s+"))) \
+                    .filter(F.length("word") > 4) \
+                    .filter(~F.col("word").isin(stop_actions)) \
+                    .groupBy("word").count() \
+                    .orderBy(F.desc("count")).limit(100)
+                z.show(word_cloud_data)
