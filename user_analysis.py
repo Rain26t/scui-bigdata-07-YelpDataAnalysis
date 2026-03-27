@@ -110,3 +110,29 @@ def run_ii9():
         .filter(F.col("total_reviews") >= 20) \
         .orderBy(F.desc("distinct_cuisines"))
     z.show(adventurous_eaters.limit(50))
+
+# =============================================================================
+# II. 10. Elite status impact: Review length and useful votes before vs after
+# =============================================================================
+def run_ii10():
+    impact = rev_df.join(user_df, rev_df.rev_user_id == user_df.user_id) \
+        .withColumn("first_elite_year", F.split(F.col("user_elite"), ",")[0].cast("int")) \
+        .withColumn("review_year", F.year("rev_date")) \
+        .withColumn("is_after_elite", F.when(F.col("review_year") >= F.col("first_elite_year"), "After").otherwise("Before")) \
+        .groupBy("is_after_elite").agg(
+            F.avg(F.length("rev_text")).alias("avg_review_length"),
+            F.avg("rev_useful").alias("avg_useful_votes")
+        )
+    z.show(impact)
+
+# --- EXECUTION ---
+run_ii1()
+# run_ii2()
+# run_ii3()
+# run_ii4()
+# run_ii5()
+# run_ii6()
+# run_ii7()
+# run_ii8()
+# run_ii9()
+# run_ii10()
