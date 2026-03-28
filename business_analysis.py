@@ -96,3 +96,19 @@ def run_i7():
     z.show(five_star_leaders)
 
 
+# =============================================================================
+# I. 8: Count the number of restaurant types (Chinese, American, Mexican)
+# =============================================================================
+def run_i8():
+    cuisine_counts = business_df.filter(F.col("categories").contains("Restaurants")) \
+        .withColumn("type", F.when(F.col("categories").contains("Chinese"), "Chinese")
+                             .when(F.col("categories").contains("American"), "American")
+                             .when(F.col("categories").contains("Mexican"), "Mexican")
+                             .otherwise(None)) \
+        .filter(F.col("type").isNotNull()) \
+        .groupBy("type") \
+        .count()
+    z.show(cuisine_counts)
+
+
+
