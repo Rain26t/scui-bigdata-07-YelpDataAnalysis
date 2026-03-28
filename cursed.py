@@ -54,3 +54,41 @@ death_signals = reviews.join(biz, reviews.rev_business_id == biz.business_id) \
 # Summary of why this specific storefront keeps failing
 issue_summary = death_signals.groupBy("issue_type").count().orderBy(F.desc("count"))
 z.show(issue_summary)
+
+
+%pyspark
+from pyspark.sql import functions as F
+
+# 1. CREATE DYNAMIC INPUT BOX
+# This creates a text field in the Zeppelin UI to enter your address
+target_addr = z.input("Enter Cursed Address", "3131 Walnut St")
+
+# 2. LOAD & CLEAN DATA
+# Filtering for your specific project states: PA, FL, LA
+biz = spark.table("yelp_db.business").filter(F.col("state").isin("PA", "FL", "LA"))
+reviews = spark.table("yelp_db.review")
+
+# 3. CALCULATE TURNOVER (The 'Cursed' Factor)
+# This counts how many different businesses have lived at this exact address
+turnover_context = biz.groupBy("address", "city") \
+    .agg(F.count("business_id").alias("total_tenants_history"))
+
+# 4. PERFORM THE AUTOPSY (The 'Death Signals')
+# We join Reviews and Business, then filter for the specific address and 'failure' keywords
+death_signals = reviews.join(biz, reviews.rev_business_id == biz.business_id) \
+    .join(turnover_context, ["address", "city"]) \
+    .filter(F.upper(F.col("address")) == target_addr.upper()) \
+    .filter(F.col("rev_stars") <= 2) \
+    .filter(F.col("rev_text").rlike("(?i)closed|locked|empty|dark|gone|abandoned|dirty|smell|health department|signage|construction")) \
+    .select(
+        F.col("name").alias("business_name"),
+        F.col("total_tenants_history"),
+        F.col("rev_date").alias("date"),
+        F.col("rev_stars").alias("stars"),
+        F.col("rev_text").alias("death_signal_comment")
+    ) \
+    .orderBy(F.desc("date"))
+
+# 5. DISPLAY THE FINAL REPORT
+print(f"--- POST-MORTEM REPORT FOR: {target_addr} ---")
+z.show(death_signals)
