@@ -15,3 +15,21 @@ storefront_lifecycle = spark.table("yelp_db.business") \
 
 print("Top 50 Cursed Storefronts found:")
 z.show(storefront_lifecycle.limit(50))
+
+
+
+
+%pyspark
+from pyspark.sql import functions as F
+
+# Re-define biz just in case
+biz = spark.table("yelp_db.business").filter(F.col("state").isin("PA", "FL", "LA"))
+
+# PASTE ONE ADDRESS FROM THE STEP 1 RESULT HERE
+target_address = "3131 Walnut St"
+
+# Look at the shared attributes (Parking, Noise, etc.) of all failures at this spot
+flaw_check = biz.filter(F.col("address") == target_address) \
+    .select("name", "stars", "attributes", "categories", "is_open")
+
+z.show(flaw_check)
