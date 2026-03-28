@@ -123,6 +123,19 @@ def run_i9():
         .groupBy("type") \
         .agg(F.sum("review_count").alias("total_reviews"))
     z.show(review_volume)
+# =============================================================================
+# I. 10: Analyze the rating distribution (average) for different restaurant types
+# =============================================================================
+def run_i10():
+    rating_dist = business_df.filter(F.col("categories").contains("Restaurants")) \
+        .withColumn("type", F.when(F.col("categories").contains("Chinese"), "Chinese")
+                             .when(F.col("categories").contains("American"), "American")
+                             .when(F.col("categories").contains("Mexican"), "Mexican")
+                             .otherwise(None)) \
+        .filter(F.col("type").isNotNull()) \
+        .groupBy("type") \
+        .agg(F.round(F.avg("stars"), 2).alias("avg_rating"))
+    z.show(rating_dist)
 
 
 
