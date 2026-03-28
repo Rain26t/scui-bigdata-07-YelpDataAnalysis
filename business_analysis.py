@@ -152,6 +152,22 @@ def run_i11():
         .select("name", "old_avg", "new_avg")
     z.show(turnarounds)
 
+# =============================================================================
+# I. 12: Identify top 10 pairs of distinct categories that co-occur
+# =============================================================================
+def run_i12():
+    synergy = business_df.filter(F.col("categories").isNotNull()) \
+        .withColumn("cat_list", F.split(F.col("categories"), ",\\s*")) \
+        .withColumn("c1", F.explode("cat_list")) \
+        .withColumn("c2", F.explode("cat_list")) \
+        .filter(F.col("c1") < F.col("c2")) \
+        .groupBy("c1", "c2") \
+        .count() \
+        .orderBy(F.desc("count")) \
+        .limit(10)
+    z.show(synergy)
+
+
 
 
 
