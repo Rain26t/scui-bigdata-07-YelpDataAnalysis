@@ -47,3 +47,39 @@ def run_vi2():
 
     z.show(conversion_df)
 
+# =============================================================================
+# VI. 3. Analyze post-review check-in drop-off
+# Impact of 1-star review spikes on monthly check-in volume.
+# =============================================================================
+def run_vi3():
+    # 1. Identify businesses with a "spike" (more than 5 one-star reviews in a week)
+    weekly_spikes = review_df.filter("rev_stars = 1") \
+        .withColumn("year", F.year("rev_date")) \
+        .withColumn("week", F.weekofyear("rev_date")) \
+        .groupBy("rev_business_id", "year", "week").count() \
+        .filter("count > 5")
+
+    # 2. Calculate monthly check-in volumes using 'checkin_dates'
+    checkin_monthly = checkin_df.withColumn("ts", F.explode(F.split(F.col("checkin_dates"), ", "))) \
+        .withColumn("month_val", F.date_format("ts", "yyyy-MM")) \
+        .groupBy("business_id", "month_val").count().withColumnRenamed("count", "monthly_ci")
+
+    # 3. Join spikes with check-in data to observe the impact on foot traffic
+    drop_off_analysis = weekly_spikes.join(
+        checkin_monthly,
+        weekly_spikes.rev_business_id == checkin_monthly.business_id
+    ).select(
+        F.col("rev_business_id").alias("business_id"),
+        "year",
+        "week",
+        "month_val",
+        "monthly_ci"
+    ).orderBy("business_id", "year", "week", "month_val")
+
+    z.show(drop_off_analysis)
+
+# --- EXECUTION ---
+# Uncomment the line you want to run in this Zeppelin paragraph
+run_vi1()
+# run_vi2()
+# run_vi3()
