@@ -167,6 +167,23 @@ def run_i12():
         .limit(10)
     z.show(synergy)
 
+# =============================================================================
+# I. 13: Find polarizing merchants (high standard deviation in ratings)
+# =============================================================================
+def run_i13():
+    polarizing = review_df.groupBy("rev_business_id") \
+        .agg(F.count("*").alias("rev_vol"), F.stddev("rev_stars").alias("std_dev")) \
+        .filter("rev_vol > 50") \
+        .join(business_df, F.col("rev_business_id") == business_df.business_id) \
+        .select("name", "std_dev", "rev_vol") \
+        .orderBy(F.desc("std_dev")) \
+        .limit(20)
+    z.show(polarizing)
+
+# --- EXECUTION ---
+# Uncomment the line you want to run
+run_i1()
+
 
 
 
