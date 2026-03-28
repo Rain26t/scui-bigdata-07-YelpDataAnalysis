@@ -95,3 +95,17 @@ def run_iii2():
                         .groupBy(F.col("w1.word").alias("Word_A"), F.col("w2.word").alias("Word_B")) \
                         .count().orderBy(F.desc("count"))
                     z.show(associations)
+# =============================================================================
+# III. 9: Top 15 bigrams associated with 1-star and 2-star reviews
+# =============================================================================
+def run_iii9():
+    words_df = review_df.filter("rev_stars <= 2") \
+        .withColumn("word_array", F.split(F.lower(F.col("rev_text")), "\\s+")) \
+        .withColumn("word", F.explode_outer("word_array"))
+
+    win = Window.partitionBy("rev_user_id", "rev_date").orderBy(F.monotonically_increasing_id())
+    bigrams = words_df.withColumn("next", F.lead("word", 1).over(win)) \
+        .withColumn("phrase", F.concat_ws(" ", F.col("word"), F.col("next"))) \
+        .filter(F.length("word") > 2).filter(F.length("next") > 2)
+
+    z.show(bigrams.groupBy("phrase").count().orderBy(F.desc("count")).limit(15))
