@@ -56,3 +56,17 @@ def run_i4():
         .orderBy(F.desc("number_of_locations")) \
         .limit(20)
     z.show(merchants_with_stars)
+
+# =============================================================================
+# I. 5: Count the total number of unique business categories
+# =============================================================================
+def run_i5():
+    unique_categories = business_df.filter(F.col("categories").isNotNull()) \
+        .withColumn("cat_array", F.split(F.col("categories"), ",\\s*")) \
+        .withColumn("category", F.explode(F.col("cat_array"))) \
+        .select(F.trim(F.col("category")).alias("category")) \
+        .filter(F.col("category") != "") \
+        .distinct() \
+        .count()
+    print(f"Total Unique Categories: {unique_categories}")
+
