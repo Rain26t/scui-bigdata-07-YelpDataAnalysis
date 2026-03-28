@@ -34,6 +34,35 @@ z.show(analysis)
 
 
 
+%pyspark
+from pyspark.sql import functions as F
 
+# 1. Load your now-working Hive tables
+weather = spark.table("yelp_db.weather_pilot")
+biz = spark.table("yelp_db.business").filter(F.col("state").isin("PA", "FL", "LA"))
+reviews = spark.table("yelp_db.review")
+
+# 2. Clean & Prepare Weather Data
+weather_clean = weather.withColumn("state_ext", F.regexp_extract(F.col("NAME"), r"([A-Z]{2})\sUS$", 1)) \
+                       .withColumn("w_date", F.to_date(F.col("DATE_STR"), "yyyy-MM-dd")) \
+                       .select("state_ext", "w_date", "PRCP", "TMAX")
+
+# 3. Join logic
+final_join = reviews.join(biz, reviews.rev_business_id == biz.business_id) \
+    .join(weather_clean, (reviews.rev_date == weather_clean.w_date) &
+                         (biz.state == weather_clean.state_ext))
+
+# 4. Final Aggregation: Rating and Extreme Star Counts by State
+# We define 'Rainy' as PRCP > 0
+analysis = final_join.withColumn("condition", F.when(F.col("PRCP") > 0, "Rainy").otherwise("Sunny/Dry")) \
+    .groupBy("state", "condition") \
+    .agg(
+        F.avg("rev_stars").alias("avg_rating"),
+        F.count(F.when(F.col("rev_stars") == 1, 1)).alias("count_1_star"),
+        F.count(F.when(F.col("rev_stars") == 5, 1)).alias("count_5_star"),
+        F.count("*").alias("num_reviews")
+    ).orderBy("state", "condition")
+
+z.show(analysis)
 
 
