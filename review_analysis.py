@@ -109,3 +109,11 @@ def run_iii9():
         .filter(F.length("word") > 2).filter(F.length("next") > 2)
 
     z.show(bigrams.groupBy("phrase").count().orderBy(F.desc("count")).limit(15))
+# =============================================================================
+# III. 10: Average word count for each star rating tier (1 to 5)
+# =============================================================================
+def run_iii10():
+    length_corr = review_df.withColumn("word_count", F.size(F.split(F.col("rev_text"), "\\s+"))) \
+        .groupBy("rev_stars").agg(F.avg("word_count").alias("avg_length")) \
+        .orderBy("rev_stars")
+    z.show(length_corr)
