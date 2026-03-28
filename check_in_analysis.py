@@ -23,3 +23,11 @@ def run_v2():
         .groupBy(F.hour("ts").alias("hour")).count().orderBy("hour")
     z.show(ci_hour)
 
+# =============================================================================
+# V. 3. Identify the most popular city for check-ins
+# =============================================================================
+def run_v3():
+    popular_city = checkin_df.withColumn("ts", F.explode(F.split(F.col("checkin_dates"), ", "))) \
+        .join(biz_df, "business_id") \
+        .groupBy("city").count().orderBy(F.desc("count"))
+    z.show(popular_city.limit(10))
