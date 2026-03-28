@@ -79,3 +79,19 @@ def run_iii2():
                     .groupBy("word").count() \
                     .orderBy(F.desc("count")).limit(100)
                 z.show(word_cloud_data)
+
+                # =============================================================================
+                # III. 8: Construct a word association graph (Word relations)
+                # =============================================================================
+                def run_iii8():
+                    target_words = ["chinese", "steak", "pizza", "service", "wait", "price", "delicious", "bad"]
+                    words_in_reviews = review_df.limit(500).select("review_id", F.explode(
+                        F.split(F.lower(F.col("rev_text")), "\\s+")).alias("word")) \
+                        .filter(F.col("word").isin(target_words))
+
+                    associations = words_in_reviews.alias("w1") \
+                        .join(words_in_reviews.alias("w2"), "review_id") \
+                        .filter(F.col("w1.word") < F.col("w2.word")) \
+                        .groupBy(F.col("w1.word").alias("Word_A"), F.col("w2.word").alias("Word_B")) \
+                        .count().orderBy(F.desc("count"))
+                    z.show(associations)
