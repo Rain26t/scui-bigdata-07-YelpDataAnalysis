@@ -57,3 +57,24 @@ def run_v5():
         .filter("growth_rate IS NOT NULL") \
         .orderBy(F.desc("growth_rate"))
     z.show(mom_growth.limit(50))
+
+# =============================================================================
+# V. 6. Analyze review seasonality by cuisine (Ice Cream vs. Soup)
+# =============================================================================
+def run_v6():
+    seasonal_analysis = checkin_df.withColumn("ts", F.explode(F.split(F.col("checkin_dates"), ", "))) \
+        .join(biz_df, "business_id") \
+        .withColumn("month_num", F.month("ts")) \
+        .filter(F.col("categories").rlike("Ice Cream|Soup")) \
+        .groupBy("month_num", "categories").count() \
+        .orderBy("month_num")
+    z.show(seasonal_analysis)
+
+# --- EXECUTION ---
+# Change these calls to run the specific question you want to see
+run_v1()
+# run_v2()
+# run_v3()
+# run_v4()
+# run_v5()
+# run_v6()
