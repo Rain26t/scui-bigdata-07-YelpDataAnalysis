@@ -117,3 +117,11 @@ def run_iii10():
         .groupBy("rev_stars").agg(F.avg("word_count").alias("avg_length")) \
         .orderBy("rev_stars")
     z.show(length_corr)
+# =============================================================================
+# III. 11: Mixed Sentiment (1-2 stars reviews with positive keywords)
+# =============================================================================
+def run_iii11():
+    lexicon = "delicious|great|amazing|excellent|love|perfect|best|wonderful"
+    mixed = review_df.filter("rev_stars <= 2").filter(F.col("rev_text").rlike(lexicon)) \
+        .select("rev_stars", "rev_text")
+    z.show(mixed)
