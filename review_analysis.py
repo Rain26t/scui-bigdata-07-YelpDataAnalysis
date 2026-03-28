@@ -125,3 +125,21 @@ def run_iii11():
     mixed = review_df.filter("rev_stars <= 2").filter(F.col("rev_text").rlike(lexicon)) \
         .select("rev_stars", "rev_text")
     z.show(mixed)
+
+    # =============================================================================
+    # III. 12: Rank menu item mentions for top 5 Chinese restaurants
+    # =============================================================================
+    def run_iii12():
+        top_5 = biz_df.filter(F.col("categories").contains("Chinese")) \
+            .select("business_id", "name") \
+            .orderBy(F.desc("review_count")).limit(5)
+
+        foods = ["rice", "noodles", "chicken", "beef", "soup", "dumplings", "shrimp", "tofu", "pork"]
+
+        mentions = review_df.join(top_5, review_df.rev_business_id == top_5.business_id) \
+            .withColumn("item", F.explode(F.array([F.lit(x) for x in foods]))) \
+            .filter(F.expr("rev_text rlike item")) \
+            .select(F.col("name").alias("Restaurant_Name"), "item") \
+            .groupBy("Restaurant_Name", "item").count() \
+            .orderBy(F.desc("count"))
+        z.show(mentions)
