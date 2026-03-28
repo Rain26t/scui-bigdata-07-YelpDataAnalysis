@@ -44,3 +44,15 @@ def run_i3():
         .orderBy(F.desc("merchant_count")) \
         .limit(5)
     z.show(top_states)
+# =============================================================================
+# I. 4: Identify the 20 most common merchants and display their average ratings
+# =============================================================================
+def run_i4():
+    merchants_with_stars = business_df.groupBy("name") \
+        .agg(
+            F.count("*").alias("number_of_locations"),
+            F.round(F.avg("stars"), 2).alias("average_rating")
+        ) \
+        .orderBy(F.desc("number_of_locations")) \
+        .limit(20)
+    z.show(merchants_with_stars)
