@@ -48,7 +48,7 @@ def run_vi2():
     z.show(conversion_df)
 
 # =============================================================================
-# VI. 3. Analyze post-review check-in drop-off
+# VI. 3.Analyze post-review check-in drop-off
 # Impact of 1-star review spikes on monthly check-in volume.
 # =============================================================================
 def run_vi3():
