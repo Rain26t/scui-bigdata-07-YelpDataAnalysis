@@ -138,5 +138,20 @@ def run_i10():
     z.show(rating_dist)
 
 
+# =============================================================================
+# I. 11: Find businesses whose avg rating in last 12 months increased by >= 1 star
+# =============================================================================
+def run_i11():
+    historical = review_df.groupBy("rev_business_id").agg(F.avg("rev_stars").alias("old_avg"))
+    max_date = review_df.select(F.max("rev_date")).collect()[0][0]
+    recent = review_df.filter(F.col("rev_date") >= F.add_months(F.lit(max_date), -12)) \
+        .groupBy("rev_business_id").agg(F.avg("rev_stars").alias("new_avg"))
+    turnarounds = recent.join(historical, "rev_business_id") \
+        .filter((F.col("new_avg") - F.col("old_avg")) >= 1.0) \
+        .join(business_df, recent.rev_business_id == business_df.business_id) \
+        .select("name", "old_avg", "new_avg")
+    z.show(turnarounds)
+
+
 
 
