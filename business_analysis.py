@@ -83,4 +83,16 @@ def run_i6():
         .limit(10)
     z.show(top_categories)
 
+# =============================================================================
+# I. 7: Identify the top 20 merchants that received the most five-star reviews
+# =============================================================================
+def run_i7():
+    five_star_leaders = review_df.filter(F.col("rev_stars") == 5) \
+        .join(business_df, review_df.rev_business_id == business_df.business_id) \
+        .groupBy("name") \
+        .agg(F.count("*").alias("five_star_count")) \
+        .orderBy(F.desc("five_star_count")) \
+        .limit(20)
+    z.show(five_star_leaders)
+
 
