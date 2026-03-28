@@ -110,5 +110,20 @@ def run_i8():
         .count()
     z.show(cuisine_counts)
 
+# =============================================================================
+# I. 9: Count the number of reviews for each restaurant type
+# =============================================================================
+def run_i9():
+    review_volume = business_df.filter(F.col("categories").contains("Restaurants")) \
+        .withColumn("type", F.when(F.col("categories").contains("Chinese"), "Chinese")
+                             .when(F.col("categories").contains("American"), "American")
+                             .when(F.col("categories").contains("Mexican"), "Mexican")
+                             .otherwise(None)) \
+        .filter(F.col("type").isNotNull()) \
+        .groupBy("type") \
+        .agg(F.sum("review_count").alias("total_reviews"))
+    z.show(review_volume)
+
+
 
 
