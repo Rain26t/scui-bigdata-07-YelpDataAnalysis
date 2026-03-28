@@ -1,0 +1,18 @@
+%pyspark
+from pyspark.sql import functions as F
+from pyspark.sql.window import Window
+
+# --- INITIALIZATION for Section V ---
+spark.sql("USE yelp_db")
+biz_df = spark.table("business")
+checkin_df = spark.table("checkin")
+
+
+# =============================================================================
+# V. 1. Count the number of check-ins per year
+# =============================================================================
+def run_v1():
+    ci_year = checkin_df.withColumn("ts", F.explode(F.split(F.col("checkin_dates"), ", "))) \
+        .groupBy(F.year("ts").alias("year")).count().orderBy("year")
+    z.show(ci_year)
+
