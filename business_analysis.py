@@ -22,3 +22,15 @@ def run_i1():
         .orderBy(F.desc("location_count")) \
         .limit(20)
     z.show(top_merchants)
+
+# =============================================================================
+# I. 2: Identify the top 10 cities with the most merchants in the U.S.
+# =============================================================================
+def run_i2():
+    top_cities = business_df.filter(F.col("state").isin(us_states)) \
+        .filter(F.col("city").isNotNull()) \
+        .groupBy("city") \
+        .agg(F.count("*").alias("merchant_count")) \
+        .orderBy(F.desc("merchant_count")) \
+        .limit(10)
+    z.show(top_cities)
