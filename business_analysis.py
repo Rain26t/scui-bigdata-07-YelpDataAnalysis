@@ -69,4 +69,18 @@ def run_i5():
         .distinct() \
         .count()
     print(f"Total Unique Categories: {unique_categories}")
+# =============================================================================
+# I. 6: Identify the top 10 most frequent categories and their count
+# =============================================================================
+def run_i6():
+    top_categories = business_df.filter(F.col("categories").isNotNull()) \
+        .withColumn("category", F.explode(F.split(F.col("categories"), ",\\s*"))) \
+        .select(F.trim(F.col("category")).alias("category")) \
+        .filter(F.col("category") != "") \
+        .groupBy("category") \
+        .agg(F.count("*").alias("count")) \
+        .orderBy(F.desc("count")) \
+        .limit(10)
+    z.show(top_categories)
+
 
