@@ -41,3 +41,19 @@ def qV4():
         .join(biz_df.select("business_id", "name"), "business_id") \
         .orderBy(F.desc("count"))
     z.show(biz_rank)
+
+# =============================================================================
+# V. 5. Calculate the MoM check-in growth rate (Trending Locations)
+# =============================================================================
+def run_v5():
+    window_mom = Window.partitionBy("business_id").orderBy("month")
+    mom_growth = checkin_df.withColumn("ts", F.explode(F.split(F.col("checkin_dates"), ", "))) \
+        .withColumn("month", F.date_format("ts", "yyyy-MM")) \
+        .groupBy("business_id", "month").count() \
+        .withColumn("prev_count", F.lag("count").over(window_mom)) \
+        .withColumn("growth_rate", (F.col("count") - F.col("prev_count")) / F.col("prev_count")) \
+        .join(biz_df.select("business_id", "name", "city", "categories"), "business_id") \
+        .filter(F.col("categories").contains("Restaurants")) \
+        .filter("growth_rate IS NOT NULL") \
+        .orderBy(F.desc("growth_rate"))
+    z.show(mom_growth.limit(50))
