@@ -31,3 +31,13 @@ def run_v3():
         .join(biz_df, "business_id") \
         .groupBy("city").count().orderBy(F.desc("count"))
     z.show(popular_city.limit(10))
+
+# =============================================================================
+# V. 4. Rank all businesses based on check-in counts
+# =============================================================================
+def qV4():
+    biz_rank = checkin_df.withColumn("ts", F.explode(F.split(F.col("checkin_dates"), ", "))) \
+        .groupBy("business_id").count() \
+        .join(biz_df.select("business_id", "name"), "business_id") \
+        .orderBy(F.desc("count"))
+    z.show(biz_rank)
