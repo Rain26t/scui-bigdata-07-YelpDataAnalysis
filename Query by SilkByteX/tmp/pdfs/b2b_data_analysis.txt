@@ -1,0 +1,529 @@
+02. B2B Data Analysis and Visualization
+What Is Yelp?
+Founded in 2004, Yelp is a popular online directory for discovering local businesses ranging from bars, restaurants, and cafes to hairdressers, spas, and
+gas stations.
+
+How Does Yelp Work?
+You can search Yelp via its website or with the official apps on iOS and Android smart devices. Listings are sorted by business type and results are filtered
+by geographical location, price range, and unique features like outdoor seating, delivery service, or the ability to accept reservations.
+Yelp has a strong social aspect and encourages its users to leave written reviews, star ratings, and photos of their experience with each business they visit.
+Each Yelp account has a friends list that can be populated by connecting the app with Facebook and a smartphone or tablet's address book. Reviews
+posted on Yelp can also be reviewed by other users, while popular reviewers have the potential to be promoted to Yelp Elite status.
+
+Yelp Dataset
+The Yelp dataset is a subset of Yelp's businesses, reviews, and user data that has been made publicly available for use for personal, educational, and
+academic purposes. Available as JSON files, use it to teach students about databases, to learn NLP, or for sample production data while you learn how to
+make mobile apps. This dataset contains 6,685,900 reviews, 192,609 businesses, 200,000 pictures in 10 metropolitan areas.
+Yelp Dataset
+
+Yelp JSON
+users
+Field
+
+Type
+
+Description
+
+user_id
+
+string
+
+22 character unique user id, maps to the user in user.json
+
+name
+
+string
+
+the user's first name
+
+review_count
+
+integer
+
+the number of reviews they've written
+
+yelping_since
+
+string
+
+when the user joined Yelp, formatted like YYYY-MM-DD
+
+friends
+
+array
+
+array of strings, an array of the user's friend as user_ids
+
+useful
+
+integer
+
+number of useful votes sent by the user
+
+funny
+
+integer
+
+number of funny votes sent by the user
+
+cool
+
+integer
+
+number of cool votes sent by the user
+
+fans
+
+integer
+
+number of fans the user has
+
+elite
+
+array
+
+the years the user was elite
+
+average_stars
+
+float
+
+average rating of all reviews
+
+compliment_hot
+
+integer
+
+number of hot compliments received by the user
+
+compliment_more
+
+integer
+
+number of more compliments received by the user
+
+compliment_profile
+
+integer
+
+number of profile compliments received by the user
+
+compliment_cute
+
+integer
+
+number of cute compliments received by the user
+
+compliment_list
+
+integer
+
+number of list compliments received by the user
+
+compliment_note
+
+integer
+
+number of note compliments received by the user
+
+compliment_plain
+
+integer
+
+number of plain compliments received by the user
+
+compliment_cool
+
+integer
+
+number of cool compliments received by the user
+
+compliment_funny
+
+integer
+
+number of funny compliments received by the user
+
+compliment_writer
+
+integer
+
+number of writer compliments received by the user
+
+compliment_photos
+
+integer
+
+number of photo compliments received by the user
+
+business
+Field
+
+Type
+
+Description
+
+business_id
+
+string
+
+22 character unique string business id
+
+name
+
+string
+
+the business's name
+
+address
+
+string
+
+the full address of the business
+
+city
+
+string
+
+the city
+
+state
+
+string
+
+2 character state code, if applicable
+
+postal code
+
+string
+
+the postal code
+
+latitude
+
+float
+
+latitude
+
+longitude
+
+float
+
+longitude
+
+stars
+
+float
+
+star rating, rounded to half-stars
+
+review_count
+
+integer
+
+number of reviews
+
+is_open
+
+integer
+
+0 or 1 for closed or open, respectively
+
+attributes
+
+object
+
+business attributes to values. note: some attribute values might be objects
+
+categories
+
+array
+
+an array of strings of business categories
+
+hours
+
+object
+
+an object of key day to value hours, hours are using a 24hr clock
+
+rating
+Field
+
+Type
+
+Description
+
+review_id
+
+string
+
+22 character unique review id
+
+user_id
+
+string
+
+22 character unique user id, maps to the user in user.
+json
+
+business_id
+
+string
+
+22 character business id, maps to business in business.
+json
+
+stars
+
+integer
+
+star rating
+
+date
+
+string
+
+date formatted YYYY-MM-DD
+
+text
+
+string
+
+the review itself
+
+useful
+
+integer
+
+number of useful votes received
+
+funny
+
+integer
+
+number of funny votes received
+
+cool
+
+integer
+
+number of cool votes received
+
+checkin
+Field
+
+Type
+
+Description
+
+business_id string 22 character business id, maps to business in business.json
+date
+
+string
+
+"2016-04-26 19:49:16, 2016-08-30 18:36:57, 2016-10-15 02:45:18, 2016-11-18 01:54:50, 2017-04-20 18:39:06, 2017-05-03 17:
+58:02"
+
+Requirements
+
+Requirement 1: Data Analysis and Visualization
+I. Business Analysis:
+1. Identify the 20 most common merchants in the U.S.
+2. Identify the top 10 cities with the most merchants in the U.S.
+3. Identify the top 5 states with the most merchants in the U.S.
+4. Identify the 20 most common merchants in the U.S. and display their average ratings.
+5. Count the number of different categories.
+6. Identify the top 10 most frequent categories and their count.
+7. Identify the top 20 merchants that received the most five-star reviews.
+8. Count the number of restaurant types (Chinese, American, Mexican).
+9. Count the number of reviews for each restaurant type (Chinese, American, Mexican).
+10. Analyze the rating distribution for different restaurant types (Chinese, American, Mexican).
+11. Identify turnaround merchants: Find businesses whose average rating in the last 12 months increased by at least 1 star compared to their
+historical average.
+12. Analyze category synergy: Identify the top 10 pairs of distinct business categories (e.g., "Cafes" and "Bookstores") that most frequently co-occur
+in the same merchant's profile.
+13. Identify polarizing businesses: Find merchants with a high volume of reviews but the highest standard deviation in their ratings (i.e., places people
+either love with 5 stars or hate with 1 star, with very few 3-star reviews).
+The restaurant category is defined as "Restaurants".
+Different cuisine categories include: American, Mexican, Italian, Japanese, Chinese, Thai, Mediterranean, French, Vietnamese, Greek, Indian,
+Korean, Hawaiian, African, Spanish, Middle Eastern.
+
+II. User Analysis:
+1. Analyze the number of users joining each year.
+2. Identify top reviewers based on review_count.
+3. Identify the most popular users based on fans.
+4. Calculate the ratio of elite users to regular users each year.
+5. Display the proportion of total users and silent users (users who haven't written reviews) each year.
+6. Compute the yearly statistics of new users, number of reviews, elite users, tips, and check-ins.
+7. Identify early adopters (tastemakers): Find users who frequently wrote one of the first 5 reviews for restaurants that eventually achieved a 4.5+
+star average with over 100 reviews.
+8. Analyze user rating evolution: Compare the average star rating users give during their first year on the platform versus their third year, to
+determine if users become more critical over time.
+9. Segment users by dining diversity: Count the number of distinct cuisine categories each user has reviewed and rank the top 50 most
+"adventurous" eaters (minimum 20 reviews).
+10. Identify elite status impact: Calculate the average length of reviews (word count) and the average number of "useful" votes received by users bef
+ore they became Elite versus after they achieved Elite status.
+
+III. Review Analysis:
+1. Count the number of reviews per year.
+2. Count the number of useful (helpful), funny (funny), and cool (cool) reviews.
+3. Rank users by the total number of reviews each year.
+4. Extract the Top 20 most common words from all reviews.
+5. Extract the Top 10 words from positive reviews (rating > 3).
+6. Extract the Top 10 words from negative reviews (rating 3).
+7. Perform word cloud analysis by filtering words based on part-of-speech tagging.
+8. Construct a word association graph (e.g., relations between words like "Chinese" and "steak").
+9. Extract the top 15 bigrams (two-word phrases) specifically associated with 1-star and 2-star reviews to identify common pain points (e.g., "cold
+food", "rude staff").
+10. Analyze the correlation between review length and rating: Calculate the average word count for each star rating tier (1 to 5 stars) to determine if
+dissatisfied customers write longer reviews.
+11. Identify mixed-signal reviews: Find reviews that gave 1 or 2 stars but contain predominantly positive keywords (by matching text against a
+predefined positive lexicon) to highlight potential sarcastic reviews or mis-clicks.
+12. Extract and rank the most frequently mentioned menu items (using a predefined food dictionary) for the top 5 most popular Chinese
+restaurants.
+
+IV. Rating Analysis:
+Analyze the distribution of ratings (1-5 stars).
+Analyze the weekly rating frequency (Monday to Sunday).
+Identify the top businesses with the most five-star ratings.
+Identify the top 10 cities with the highest ratings.
+Calculate the rating differential: Compare each merchant's average rating against the overall average rating of its specific cuisine category
+within the same city.
+Compare weekend vs. weekday satisfaction: Calculate the average rating of reviews written on weekends (Saturday/Sunday) versus weekdays
+for the "Nightlife" category.
+
+V. Check-in Analysis:
+1.
+
+1. Count the number of check-ins per year.
+2. Count the number of check-ins per hour within a 24-hour period.
+3. Identify the most popular city for check-ins.
+4. Rank all businesses based on check-in counts.
+5. Calculate the month-over-month (MoM) check-in growth rate for the top 50 restaurants in a specific city to identify currently "trending"
+locations.
+6. Analyze review seasonality by cuisine: Identify which month of the year has the highest volume of reviews/check-ins for specific seasonal
+categories (e.g., "Ice Cream" vs. "Soup").
+
+VI. Comprehensive Analysis:
+1. Identify the top 5 merchants in each city based on the combined metrics of rating frequency, average rating, and check-in frequency.
+2. Calculate the review conversion rate: For the top 100 most checked-in businesses, compute the ratio of total check-ins to total reviews to see
+which places drive more physical visits vs. online feedback.
+3. Analyze post-review check-in drop-off: For businesses that received a sudden spike in 1-star reviews within a single week, calculate the
+percentage drop in their check-in volume in the following month.
+
+Requirement 2 : Data Enrichment and Exploration
+In the real-world tech industry, top-tier data analysts never limit themselves to a single internal database. They master the art of Data Enrichment—
+seamlessly integrating internal business data with external real-world datasets (such as macroeconomics, weather, geography, or public records) to deliver
+game-changing business insights.
+You must independently design your SQL/Spark logic to process massive Yelp datasets and mandatorily incorporate an external dataset (or real-world
+evidence) for cross-validation!
+
+I.The Weather-Mood Hypothesis
+Business Hypothesis: Do extreme weather conditions (heavy rain, strong winds, extreme heat) cause restaurants to receive a spike in 1-star
+reviews on that specific day? Alternatively, do they trigger a surge in foot traffic/check-ins for specific food categories (like delivery or hot soup)?
+Requirements: Analyze the true impact of historical weather fluctuations on local restaurant foot traffic (check-in activity) and reputation (star
+ratings and review sentiment). You must prove through data integration whether diners' "moods" and "consumption preferences" are influenced
+by Mother Nature. Finally, output actionable business recommendations for inventory management or staff scheduling based on forecasted
+weather conditions.
+Data Hunting:
+Internal Data (Yelp): Extract time-stamped reviews, ratings, text, and daily check-in records for a specific city.
+External Data (External): Independently navigate to NOAA (National Oceanic and Atmospheric Administration), Kaggle, or a local
+meteorological website to download the Historical Daily Weather Data for that specific city and year.
+
+.The Cursed Storefronts & Multi-Dimensional Attribution
+Business Hypothesis: In the restaurant industry, there are specific street addresses where businesses consistently fail, regardless of the brand
+or cuisine; meanwhile, other locations thrive even with mediocre food. The reasons behind this "curse" are often hidden in the physical attributes
+of the store, customer complaints, and the actual physical environment.
+Requirements: Pinpoint those frequently failing "cursed storefronts" alongside the low-turnover "golden locations" within the massive dataset.
+You must conduct a comprehensive "post-mortem diagnosis" of these extreme addresses' life-and-death cycles by combining the merchants'
+objective attributes, subjective diner reviews (NLP), and external spatial or economic dimensions.
+Data Hunting:
+Internal Data (Yelp Deep Mining):
+Lifecycle: Extract exact geographic locations (addresses, coordinates) and track the iteration history of business statuses (is_o
+pen).
+Attribute Diagnosis: Extract and compare the attributes field of these extreme addresses. Do they all share fatal flaws like B
+usinessParking: False, NoiseLevel: Very_Loud, or a lack of core services?
+Review Autopsy (NLP): Extract reviews from the final 6 months before closure to find high-frequency pain points. Did customers
+explicitly point out hard constraints (e.g., "nowhere to park", "hidden location", "sketchy area")?
+External Data (External Enrichment): Choose one or more of the following to cross-validate your findings:
+Google Maps Street View (Visual check for blind spots, traffic flow direction, or parking availability).
+Walk Score API (Assess neighborhood walkability and transit index).
+Zillow / LoopNet (Investigate commercial rent costs to see if "predatory pricing" caused the frequent failures).
+Local Municipal Zoning Maps (Check for specific commercial restrictions).
+
+. The Review Manipulation Syndicate
+Business Hypothesis: In the traffic-driven era, review manipulation is a hidden black market. Some businesses hire "ghost accounts" to flood
+their pages with 5-star reviews in a short period, creating a false illusion of prosperity.
+Requirements: Build a data filtration mechanism to identify unscrupulous merchants suspected of hiring review farms. Reverse-engineer the
+network characteristics of these fake reviews (e.g., clustered outbreaks, abnormal timelines, or spatial teleportation phenomena). Finally, evaluate
+the actual long-term consequences and backlash of this "review manipulation" on the business's overall lifecycle.
+Data Hunting:
+
+Internal Data (Yelp): Deeply analyze the user and review ecosystem. Extract posting frequencies, account historical credibility,
+geographic distribution, and extreme rating ratios.
+External Data (External): Conduct web reconnaissance on the real Yelp website, Google Reviews, or BBB (Better Business
+Bureau) archives. Gather hard evidence of official penalties against your flagged merchants (e.g., Yelp's red "Consumer Alert" banner)
+or recent complaints from real consumers who were deceived by the fake reviews.
+
+. The Open-World Data Safari
+Business Hypothesis: You decide! Perhaps a restaurant's survival rate correlates with the local demographic makeup? Maybe the opening of a
+Starbucks accurately predicts a surge in nearby rent prices? Or perhaps the pandemic permanently altered the survival rules for downtown salad
+bars?
+Requirements: Autonomously formulate a macro-hypothesis with real-world business or social significance. Define rigorous metrics, validate or
+debunk your hypothesis by integrating a real-world macroeconomic dataset, and deliver a highly personalized, advanced data insight report.
+Data Hunting:
+Internal Data (Yelp): Slice and extract the necessary business, user, spatial, or temporal dimensions based on your hypothesis.
+External Data (External): You must mandatorily introduce an authoritative public dataset. Recommended data goldmines include:
+Data.gov (US Government Open Data)
+US Census Bureau (Income/Population/Demographic distribution)
+City Open Data Portals (Crime records, health inspection violations)
+Transit Authority Data (Subway station coordinates and ridership volume)
+
+Requirement 2 : Full-Stack Text-to-SQL Conversational Application
+In this phase, you will step away from the Zeppelin notebook environment and build an independent, conversational AI web application tailored specifically
+for the Yelp Dataset. This phase tests your software engineering skills, API integration, and Prompt Engineering by bringing your data to life through a
+chat interface.
+You have complete freedom to choose your frontend and backend frameworks (e.g., Streamlit for a pure Python approach, or a decoupled architecture
+using Vue.js/React for the frontend and FastAPI/Node.js/Spring Boot for the backend). The application must feature a chat-based interface that integrates
+a Large Language Model (LLM) API (e.g., OpenAI, Claude, or local models via Ollama) with your Yelp big data backend.
+
+I. System Architecture & Technical Requirements
+To successfully implement the Text-to-SQL pipeline for the Yelp data, your application must consist of the following logical layers:
+Presentation Layer (Frontend): A chat-style user interface that captures user queries about restaurants and users, displays loading states, and
+renders multimodal responses (text, generated SQL code, tabular results, and charts).
+Service Layer (Backend): A server or application logic layer responsible for receiving frontend requests, constructing the LLM prompts with Yelp
+context, handling API limits/keys, and communicating with your database.
+Data & Execution Layer (Database): The underlying database engine (e.g., MySQL, SQLite, Hive, or Spark SQL) hosting the cleansed Yelp
+tables (business, review, user, checkin, etc.) that executes the AI-generated SQL and returns the raw result sets.
+
+II. The Text-to-SQL Workflow (Core Logic)
+Your backend must programmatically orchestrate the following workflow:
+Dynamic Schema Injection: Before sending the user's natural language question to the LLM, the backend must dynamically fetch or construct
+the database schema specific to Yelp (e.g., clarifying that stars and review_count belong to the business table, or providing sample values
+for categories like 'Mexican' or 'Nightlife') and inject it into the LLM's system prompt.
+Natural Language Querying: Users can ask analytical questions about the Yelp ecosystem in plain English.
+Example: "Show me the top 5 highest-rated Mexican restaurants in Philadelphia that have over 500 reviews."
+Example: "Which 10 cities have the most elite users?"
+SQL Generation & Sanitization: The LLM must translate the user's intent into a valid SQL query specific to your chosen database dialect. The
+backend must parse the LLM's response to extract only the executable SQL code (removing markdown tags like ```sql or conversational filler).
+Execution & Error Handling (Self-Correction): The backend must execute the generated SQL against the Yelp database. Crucial: If the SQL
+execution fails (e.g., due to a syntax error or hallucinating a column like restaurant_name instead of name), your application should ideally
+catch the error log, feed it back to the LLM, and ask it to correct the SQL automatically before returning a failure message to the user.
+
+III. UI/UX & Data Presentation Deliverables
+The frontend interface must go beyond simple text generation. It must provide a rich, interactive data-exploration experience for the Yelp dataset. The UI
+must include:
+Conversational Chat Layout: A standard chatbot interface with distinct user bubbles and AI response bubbles.
+Loading Indicators: Clear visual feedback (e.g., a spinner or "Analyzing Yelp reviews...") to inform the user that complex SQL execution (like
+joining the user and review tables) is taking place in the background.
+Transparent Code Display: The generated SQL code must be displayed to the user within a formatted, syntax-highlighted code block so the
+user can verify how the business or user metrics were calculated.
+Tabular Data Rendering: The raw results returned from the database (e.g., a list of businesses with their addresses and average ratings) must
+be formatted and rendered as an interactive, scrollable HTML or component-based data table.
+
+Automated Chart Generation (Bonus/Advanced): If the returned data is suitable for visualization (e.g., counting businesses by city, or
+averaging stars by categories), the frontend should automatically map the data to a charting library (like ECharts, Chart.js, or Streamlit native
+charts) to display a bar, line, or pie chart alongside the data table.
+
+

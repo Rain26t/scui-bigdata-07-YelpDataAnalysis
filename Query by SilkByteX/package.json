@@ -1,0 +1,19 @@
+{
+  "name": "query-by-silkbytex",
+  "version": "1.0.0",
+  "description": "![Python](https://img.shields.io/badge/Python-3.11+-blue.svg) ![Streamlit](https://img.shields.io/badge/Streamlit-1.30.0-red.svg) ![FastAPI](https://img.shields.io/badge/FastAPI-0.104.1-green.svg) ![PySpark](https://img.shields.io/badge/PySpark-3.4.1-orange.svg)",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
+  }
+}

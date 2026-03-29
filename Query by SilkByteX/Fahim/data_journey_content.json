@@ -1,0 +1,716 @@
+{
+  "page_title": "SILKBYTE X QUERY - Data Journey",
+  "page_subtitle": "End-to-end presentation: Raw Yelp JSON -> HDFS -> Hive -> PySpark -> Zeppelin -> Query by SilkByteX",
+  "opening": {
+    "kicker": "Opening / Project Vision",
+    "title": "Where Distributed Computing Meets Conversational Analytics",
+    "line_1": "From raw Yelp JSON to decision-ready conversation through one integrated system.",
+    "line_2": "We built a full pipeline: storage, warehousing, processing, visualization, and AI-powered query interaction.",
+    "connect": "Connection: Behind every simple answer is a scalable data pipeline."
+  },
+  "hero_slots": [
+    {
+      "label": "Agenda Storyboard",
+      "type": "image",
+      "url": "assets/data_journey/generated/agenda_master_flow_v2.png",
+      "caption": "Complete presentation sequence mapped to engineering and product milestones"
+    },
+    {
+      "label": "Journey Reveal Animation",
+      "type": "image",
+      "url": "assets/data_journey/generated/journey_stage_reveal.gif",
+      "caption": "Animated transition from data ingestion to conversational intelligence"
+    }
+  ],
+  "chapters": [
+    {
+      "kicker": "Part 1",
+      "title": "Project Overview",
+      "chips": [
+        "System Vision",
+        "End-to-End Flow",
+        "Data + AI",
+        "Product Framing"
+      ],
+      "line_1": "Built as a complete workflow, not isolated scripts or disconnected notebooks.",
+      "line_2": "Each layer has a clear role: ingest, structure, analyze, visualize, and converse.",
+      "connect": "Connection: Structured systems make intelligent experiences possible.",
+      "slot_1": {
+        "label": "Agenda Map",
+        "type": "image",
+        "url": "assets/data_journey/generated/agenda_master_flow_v2.png",
+        "caption": "Presentation roadmap tied to project execution"
+      },
+      "slot_2": {
+        "label": "Project Storyboard",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image17.png",
+        "caption": "From complexity to clarity across one connected system"
+      },
+      "section_break": "none"
+    },
+    {
+      "kicker": "Part 2",
+      "title": "Problem Statement & Why This Matters",
+      "chips": [
+        "Raw Data Friction",
+        "Decision Lag",
+        "Usability Gap",
+        "Business Action"
+      ],
+      "line_1": "Large-scale raw data is hard to convert into immediate business decisions.",
+      "line_2": "A conversational layer makes advanced analysis accessible to broader users.",
+      "connect": "Connection: The goal is not only computation, but comprehension.",
+      "slot_1": {
+        "label": "Problem-to-Value Bridge",
+        "type": "image",
+        "url": "assets/data_journey/generated/problem_value_bridge.png",
+        "caption": "The gap between raw signals and usable decisions"
+      },
+      "slot_2": {
+        "label": "System Context",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image9.png",
+        "caption": "How architecture reduces analysis friction"
+      },
+      "section_break": "normal"
+    },
+    {
+      "kicker": "Part 3",
+      "title": "About Yelp & Why We Chose This Dataset",
+      "chips": [
+        "Local Business Ecosystem",
+        "Ratings & Reviews",
+        "Elite Network",
+        "Business Relevance"
+      ],
+      "line_1": "Yelp combines merchant profiles, reviews, ratings, photos, and social credibility signals.",
+      "line_2": "Its public dataset provides real scale: 6,685,900 reviews, 192,609 businesses, and 200,000 pictures.",
+      "connect": "Connection: Real platform behavior makes system validation credible.",
+      "slot_1": {
+        "label": "Yelp Dataset Scale",
+        "type": "image",
+        "url": "assets/data_journey/generated/yelp_dataset_stats.png",
+        "caption": "Dataset size and business relevance at a glance"
+      },
+      "slot_2": {
+        "label": "Context Visual",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image30.png",
+        "caption": "Practical environment for large-scale analytical learning"
+      },
+      "section_break": "none"
+    },
+    {
+      "kicker": "Part 4",
+      "title": "Dataset Structure",
+      "chips": [
+        "user",
+        "business",
+        "review",
+        "checkin"
+      ],
+      "line_1": "Four core entities anchor the system: user, business, review, and checkin.",
+      "line_2": "Their relationships power lifecycle analysis, sentiment mining, and traffic behavior.",
+      "connect": "Connection: Schema is context, and context drives correctness.",
+      "slot_1": {
+        "label": "Entity Relationship Story",
+        "type": "image",
+        "url": "assets/data_journey/generated/yelp_entities_deepdive.png",
+        "caption": "Core entities linked for ETL, SQL logic, and product interaction"
+      },
+      "slot_2": {
+        "label": "Entity Map",
+        "type": "image",
+        "url": "assets/data_journey/generated/dataset_entities_map.png",
+        "caption": "Schema-level backbone for analytical correctness"
+      },
+      "section_break": "tall"
+    },
+    {
+      "kicker": "Part 5",
+      "title": "Overall System Journey",
+      "chips": [
+        "Yelp JSON",
+        "HDFS",
+        "Hive",
+        "PySpark",
+        "Zeppelin",
+        "Query by SilkByteX"
+      ],
+      "line_1": "Raw Yelp JSON flows through distributed storage, structured warehousing, scalable processing, and visual analysis.",
+      "line_2": "Query by SilkByteX sits on top as the conversational layer for explainable access.",
+      "connect": "Connection: A pipeline where one stage feeds the next.",
+      "slot_1": {
+        "label": "System Backbone",
+        "type": "image",
+        "url": "assets/data_journey/generated/etl_pipeline_flow.png",
+        "caption": "Official project journey from source files to product interaction"
+      },
+      "slot_2": {
+        "label": "Journey Animation",
+        "type": "image",
+        "url": "assets/data_journey/generated/journey_stage_reveal.gif",
+        "caption": "Progressive reveal of the full stack lifecycle"
+      },
+      "section_break": "normal"
+    },
+    {
+      "kicker": "Part 6",
+      "title": "Part 1: Big Data ETL Pipeline",
+      "chips": [
+        "HDFS Ingestion",
+        "Hive Warehousing",
+        "PySpark Processing",
+        "Zeppelin Output"
+      ],
+      "line_1": "HDFS enables reliable distributed ingestion at scale.",
+      "line_2": "Hive and Spark transform raw files into structured, queryable, and analyzable datasets.",
+      "connect": "Connection: From raw files to structured, queryable data.",
+      "slot_1": {
+        "label": "ETL Stages Ribbon",
+        "type": "image",
+        "url": "assets/data_journey/generated/etl_stage_ribbon.png",
+        "caption": "Four required engineering stages in one view"
+      },
+      "slot_2": {
+        "label": "Technical Blueprint",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image16.png",
+        "caption": "Architecture alignment with ETL responsibilities"
+      },
+      "section_break": "none"
+    },
+    {
+      "kicker": "Part 7",
+      "title": "Data Cleaning & Transformation",
+      "chips": [
+        "Missing Values",
+        "Deduplication",
+        "Type Casting",
+        "Joins",
+        "Aggregations",
+        "Complex Transforms"
+      ],
+      "line_1": "Cleaning and transformation stabilize data quality before metric interpretation.",
+      "line_2": "Type normalization, join logic, and aggregation pipelines enforce analytical consistency.",
+      "connect": "Connection: Clean data is the precondition for trusted analytics.",
+      "slot_1": {
+        "label": "Cleaning Operations",
+        "type": "image",
+        "url": "assets/data_journey/generated/data_cleaning_ops.png",
+        "caption": "Quality operations used before downstream analysis"
+      },
+      "slot_2": {
+        "label": "Transformation Evidence",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image18.png",
+        "caption": "Prepared data supports accurate category and trend metrics"
+      },
+      "section_break": "none"
+    },
+    {
+      "kicker": "Part 8",
+      "title": "Visualization Deliverables in Zeppelin",
+      "chips": [
+        "Bar Charts",
+        "Line Charts",
+        "Pie/Donut",
+        "Scatter Plots",
+        "Interactive Views"
+      ],
+      "line_1": "Zeppelin converts processed outputs into visual evidence for rapid interpretation.",
+      "line_2": "Interactive charts support technical validation and business communication.",
+      "connect": "Connection: Not just answers, understandable answers.",
+      "slot_1": {
+        "label": "Visualization Palette",
+        "type": "image",
+        "url": "assets/data_journey/generated/zeppelin_visual_types.png",
+        "caption": "Core chart family used in notebook reporting"
+      },
+      "slot_2": {
+        "label": "Zeppelin Snapshot",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image22.png",
+        "caption": "Notebook output prepared for discussion and presentation"
+      },
+      "section_break": "tall"
+    },
+    {
+      "kicker": "Part 9",
+      "title": "Requirement 1: Business Analysis",
+      "chips": [
+        "Common Merchants",
+        "Top Cities/States",
+        "Category Counts",
+        "Five-Star Leaders",
+        "Turnaround",
+        "Synergy",
+        "Polarizing"
+      ],
+      "line_1": "Business analysis maps market concentration, category structure, and quality distribution.",
+      "line_2": "Ranking, trend, and variance logic distinguish popularity from consistency.",
+      "connect": "Connection: High volume does not always mean high satisfaction.",
+      "slot_1": {
+        "label": "Business Analysis Scope",
+        "type": "image",
+        "url": "assets/data_journey/generated/analysis_domains_grid.png",
+        "caption": "Requirement coverage for business-focused metrics"
+      },
+      "slot_2": {
+        "label": "Category & Quality Evidence",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image20.png",
+        "caption": "Category frequency and rating behavior context"
+      },
+      "section_break": "none"
+    },
+    {
+      "kicker": "Part 10",
+      "title": "Requirement 1: User Analysis",
+      "chips": [
+        "User Growth",
+        "Top Reviewers",
+        "Fans",
+        "Elite Ratio",
+        "Silent Users",
+        "Early Adopters",
+        "Diversity"
+      ],
+      "line_1": "User analysis tracks growth, influence, and participation quality over time.",
+      "line_2": "Elite dynamics and reviewer concentration reveal how credibility shapes engagement.",
+      "connect": "Connection: Influence is not only activity; it is impact.",
+      "slot_1": {
+        "label": "User Growth Dynamics",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image22.png",
+        "caption": "Year-over-year participation trends"
+      },
+      "slot_2": {
+        "label": "Reviewer Influence",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image23.png",
+        "caption": "Contribution concentration among top users"
+      },
+      "section_break": "none"
+    },
+    {
+      "kicker": "Part 11",
+      "title": "Requirement 1: Review Analysis",
+      "chips": [
+        "Review Counts",
+        "Useful/Funny/Cool",
+        "Positive vs Negative Words",
+        "Pain Points",
+        "Length vs Rating"
+      ],
+      "line_1": "Review mining turns unstructured language into operationally useful signals.",
+      "line_2": "Keyword frequency and low-star bigrams expose recurring customer pain points.",
+      "connect": "Connection: Language turns ratings into reasons.",
+      "slot_1": {
+        "label": "Review Language Signals",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image25.png",
+        "caption": "Text patterns beyond star averages"
+      },
+      "slot_2": {
+        "label": "Sentiment Distribution",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image26.png",
+        "caption": "Positive and negative lexical behavior"
+      },
+      "section_break": "none"
+    },
+    {
+      "kicker": "Part 12",
+      "title": "Requirement 1: Rating Analysis",
+      "chips": [
+        "Distribution 1-5",
+        "Weekly Frequency",
+        "Top Five-Star Businesses",
+        "City/Cuisine Differential",
+        "Weekend vs Weekday"
+      ],
+      "line_1": "Rating analysis captures score distributions, timing effects, and location-level differentials.",
+      "line_2": "Temporal and comparative views reveal stability, bias, and satisfaction dynamics.",
+      "connect": "Connection: Ratings summarize outcomes, but timing explains dynamics.",
+      "slot_1": {
+        "label": "Rating Distribution View",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image27.png",
+        "caption": "Frequency structure and top-scoring clusters"
+      },
+      "slot_2": {
+        "label": "Category Rating Context",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image20.png",
+        "caption": "Rating behavior compared across categories"
+      },
+      "section_break": "normal"
+    },
+    {
+      "kicker": "Part 13",
+      "title": "Requirement 1: Check-in & Comprehensive Analysis",
+      "chips": [
+        "Check-in Counts",
+        "Hourly Patterns",
+        "Trending Locations",
+        "Seasonality",
+        "Conversion Rate",
+        "Drop-off"
+      ],
+      "line_1": "Check-ins capture physical demand and complement digital review behavior.",
+      "line_2": "Comprehensive metrics combine traffic, rating frequency, and quality into stronger ranking logic.",
+      "connect": "Connection: Physical traffic complements digital feedback.",
+      "slot_1": {
+        "label": "Check-in Behavior",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image28.png",
+        "caption": "Footfall patterns over time and location"
+      },
+      "slot_2": {
+        "label": "Comprehensive Scope",
+        "type": "image",
+        "url": "assets/data_journey/generated/analysis_domains_grid.png",
+        "caption": "How cross-domain metrics align in one analytical frame"
+      },
+      "section_break": "tall"
+    },
+    {
+      "kicker": "Part 14",
+      "title": "Requirement 2: Data Enrichment & Exploration",
+      "chips": [
+        "External Validation",
+        "Cross-Verification",
+        "Weather Signals",
+        "Spatial Factors",
+        "Open-World Hypothesis"
+      ],
+      "line_1": "Requirement 2 extends analysis beyond internal Yelp records.",
+      "line_2": "External evidence is used to validate, refine, or challenge internal conclusions.",
+      "connect": "Connection: Internal metrics gain meaning through real-world context.",
+      "slot_1": {
+        "label": "Enrichment Overview",
+        "type": "image",
+        "url": "assets/data_journey/generated/enrichment_cross_validation_map.png",
+        "caption": "Cross-validation logic across internal and external signals"
+      },
+      "slot_2": {
+        "label": "External Dataset Grid",
+        "type": "image",
+        "url": "assets/data_journey/generated/external_sources_grid.png",
+        "caption": "Representative sources supporting validation"
+      },
+      "section_break": "none"
+    },
+    {
+      "kicker": "Part 15",
+      "title": "External Data / Cross-Validation Sources",
+      "chips": [
+        "NOAA",
+        "Kaggle",
+        "Google Reviews",
+        "BBB",
+        "Data.gov",
+        "US Census",
+        "City Open Data",
+        "Transit Data"
+      ],
+      "line_1": "External sources add weather, demographic, trust, and market context.",
+      "line_2": "Cross-source alignment improves confidence and reduces single-dataset bias.",
+      "connect": "Connection: Better decisions come from combined evidence.",
+      "slot_1": {
+        "label": "Cross-Validation Matrix",
+        "type": "image",
+        "url": "assets/data_journey/generated/enrichment_cross_validation_map.png",
+        "caption": "Source-to-hypothesis mapping for validation workflow"
+      },
+      "slot_2": {
+        "label": "Context Layer Visual",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image17.png",
+        "caption": "External context integrated with internal analytics"
+      },
+      "section_break": "none"
+    },
+    {
+      "kicker": "Part 16",
+      "title": "Chosen Enrichment Topics",
+      "chips": [
+        "Weather-Mood Hypothesis",
+        "Cursed Storefronts",
+        "Review Manipulation Syndicate",
+        "Open-World Data Safari"
+      ],
+      "line_1": "Selected hypotheses test mood shifts, location risk, and credibility anomalies.",
+      "line_2": "Each hypothesis links SQL analysis with real-world evidence pathways.",
+      "connect": "Connection: Data enrichment transforms activity into explanation.",
+      "slot_1": {
+        "label": "Hypothesis Portfolio",
+        "type": "image",
+        "url": "assets/data_journey/generated/external_sources_grid.png",
+        "caption": "Enrichment problem space for advanced investigation"
+      },
+      "slot_2": {
+        "label": "System Support Reference",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image16.png",
+        "caption": "Architecture readiness for enriched workflows"
+      },
+      "section_break": "normal"
+    },
+    {
+      "kicker": "Part 17",
+      "title": "From Analysis to Product",
+      "chips": [
+        "Pipeline to Product",
+        "Independent Application",
+        "Operational Backend",
+        "Conversational Delivery"
+      ],
+      "line_1": "After validating the analytics pipeline, we productized it into an independent web application.",
+      "line_2": "The result is a user-facing system on top of real distributed processing.",
+      "connect": "Connection: From infrastructure to interaction.",
+      "slot_1": {
+        "label": "Productization Storyboard",
+        "type": "image",
+        "url": "assets/data_journey/generated/product_transition_storyboard.png",
+        "caption": "Transition from ETL artifacts to product experience"
+      },
+      "slot_2": {
+        "label": "Delivery Context",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image30.png",
+        "caption": "Team execution from engineering to presentation outcome"
+      },
+      "section_break": "none"
+    },
+    {
+      "kicker": "Part 18",
+      "title": "Introducing Query by SilkByteX",
+      "chips": [
+        "AI Conversational Layer",
+        "Text-to-SQL",
+        "Explainable SQL",
+        "Business Querying"
+      ],
+      "line_1": "Query by SilkByteX is the product culmination of the whole pipeline, not a toy chatbot.",
+      "line_2": "Natural language questions become executable SQL and interpretable outputs.",
+      "connect": "Connection: We built more than a dashboard, a data-driven dialogue.",
+      "slot_1": {
+        "label": "Product Layer Snapshot",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image9.png",
+        "caption": "Conversational interface connected to real data systems"
+      },
+      "slot_2": {
+        "label": "Conversation Flow Animation",
+        "type": "image",
+        "url": "assets/data_journey/generated/demo_query_to_chart.gif",
+        "caption": "Question to SQL to chart in one animated flow"
+      },
+      "section_break": "none"
+    },
+    {
+      "kicker": "Part 19",
+      "title": "System Architecture of Query by SilkByteX",
+      "chips": [
+        "Presentation Layer",
+        "Service Layer",
+        "Data & Execution Layer"
+      ],
+      "line_1": "Presentation handles chat interaction and result rendering.",
+      "line_2": "Service and execution layers handle schema context, SQL logic, and safe backend processing.",
+      "connect": "Connection: Layered architecture enables usability with rigor.",
+      "slot_1": {
+        "label": "Architecture Blueprint",
+        "type": "image",
+        "url": "assets/data_journey/generated/query_architecture_blueprint.png",
+        "caption": "Three-layer system architecture with role clarity"
+      },
+      "slot_2": {
+        "label": "Layer Diagram",
+        "type": "image",
+        "url": "assets/data_journey/generated/architecture_layers_generated.png",
+        "caption": "Layer responsibilities across user, logic, and data execution"
+      },
+      "section_break": "tall"
+    },
+    {
+      "kicker": "Part 20",
+      "title": "Text-to-SQL Core Workflow",
+      "chips": [
+        "Dynamic Schema Injection",
+        "Natural Language Querying",
+        "SQL Generation & Sanitization",
+        "Execution",
+        "Self-Correction"
+      ],
+      "line_1": "The workflow follows the official order from intent capture to validated execution.",
+      "line_2": "Error feedback loops trigger correction before responses are returned.",
+      "connect": "Connection: Natural language in, structured query out.",
+      "slot_1": {
+        "label": "Workflow Diagram",
+        "type": "image",
+        "url": "assets/data_journey/generated/text_to_sql_workflow_generated.png",
+        "caption": "Core orchestration path used by the application"
+      },
+      "slot_2": {
+        "label": "Workflow Animation",
+        "type": "image",
+        "url": "assets/data_journey/generated/architecture_step_reveal.gif",
+        "caption": "Step-by-step reveal of the Text-to-SQL lifecycle"
+      },
+      "section_break": "none"
+    },
+    {
+      "kicker": "Part 21",
+      "title": "UI/UX & Data Presentation Features",
+      "chips": [
+        "Conversational Chat",
+        "Loading Indicators",
+        "Transparent SQL Display",
+        "Tabular Results",
+        "Automated Charts"
+      ],
+      "line_1": "The interface is designed for both computation and comprehension.",
+      "line_2": "Users can inspect SQL, validate data tables, and read charted trends in one flow.",
+      "connect": "Connection: Not just answers, understandable answers.",
+      "slot_1": {
+        "label": "UI/UX Feature Stack",
+        "type": "image",
+        "url": "assets/data_journey/generated/uiux_feature_stack.png",
+        "caption": "Required frontend features integrated into one interface"
+      },
+      "slot_2": {
+        "label": "Rendered Output Example",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image25.png",
+        "caption": "Query output with table and chart evidence"
+      },
+      "section_break": "normal"
+    },
+    {
+      "kicker": "Part 22",
+      "title": "Demo / Example Queries",
+      "chips": [
+        "Top-Rated Mexican Restaurants",
+        "Elite User Cities",
+        "Nightlife Weekend vs Weekday"
+      ],
+      "line_1": "Example: Show me the top 5 highest-rated Mexican restaurants in Philadelphia that have over 500 reviews.",
+      "line_2": "Example: Which 10 cities have the most elite users? Every step remains SQL-traceable.",
+      "connect": "Connection: From question to query to insight.",
+      "slot_1": {
+        "label": "Demo Query Showcase",
+        "type": "image",
+        "url": "assets/data_journey/generated/demo_queries_showcase.png",
+        "caption": "Speech-ready query examples for live presentation"
+      },
+      "slot_2": {
+        "label": "Prompt Card Set",
+        "type": "image",
+        "url": "assets/data_journey/generated/demo_queries_cards.png",
+        "caption": "Representative natural-language prompts for demonstrations"
+      },
+      "section_break": "none"
+    },
+    {
+      "kicker": "Part 23",
+      "title": "Project Highlights / Achievements",
+      "chips": [
+        "Full ETL Pipeline",
+        "Large-Scale Processing",
+        "Business Analytics",
+        "Data Enrichment",
+        "Full-Stack Conversational UI",
+        "Explainable SQL AI"
+      ],
+      "line_1": "Delivered an end-to-end system from distributed ingestion to conversational querying.",
+      "line_2": "Technical complexity was translated into decision-ready and explainable output.",
+      "connect": "Connection: Not just a dashboard, not just a chatbot, an integrated analytics experience.",
+      "slot_1": {
+        "label": "Achievement Roadmap",
+        "type": "image",
+        "url": "assets/data_journey/generated/agenda_master_flow_v2.png",
+        "caption": "Milestones connected across data engineering and product outcomes"
+      },
+      "slot_2": {
+        "label": "Impact Chain",
+        "type": "image",
+        "url": "assets/data_journey/generated/closing_value_chain_v2.png",
+        "caption": "Outcome map from raw data handling to user-facing intelligence"
+      },
+      "section_break": "none"
+    },
+    {
+      "kicker": "Part 24",
+      "title": "Team Workflow & Leadership",
+      "chips": [
+        "Repository Structure",
+        "Version Control",
+        "Contribution Tracking",
+        "Coordination"
+      ],
+      "line_1": "Structured repository practices enabled parallel contribution with stable integration.",
+      "line_2": "Coordination discipline kept engineering, analytics, and delivery synchronized.",
+      "connect": "Connection: Strong workflow governance supports stable execution.",
+      "slot_1": {
+        "label": "Execution Cadence",
+        "type": "image",
+        "url": "assets/data_journey/generated/agenda_timeline.png",
+        "caption": "Operational rhythm across planning, build, and integration"
+      },
+      "slot_2": {
+        "label": "Team Collaboration View",
+        "type": "image",
+        "url": "assets/data_journey/ppt/image30.png",
+        "caption": "Coordinated multi-role delivery across project phases"
+      },
+      "section_break": "none"
+    },
+    {
+      "kicker": "Part 25",
+      "title": "Lessons Learned",
+      "chips": [
+        "Distributed Engineering",
+        "Schema Design",
+        "PySpark Analytics",
+        "Visualization",
+        "Prompt Engineering",
+        "System Integration",
+        "Collaboration"
+      ],
+      "line_1": "The project strengthened systems thinking across infrastructure, SQL, and user-facing delivery.",
+      "line_2": "It proved that robust architecture and clear UX can coexist in one product.",
+      "connect": "Connection: We transformed complexity into clarity.",
+      "slot_1": {
+        "label": "Architecture Reflection",
+        "type": "image",
+        "url": "assets/data_journey/generated/query_architecture_blueprint.png",
+        "caption": "Systems-level learning captured across all layers"
+      },
+      "slot_2": {
+        "label": "Journey Synthesis",
+        "type": "image",
+        "url": "assets/data_journey/generated/closing_value_chain_v2.png",
+        "caption": "End-to-end summary for final presentation close"
+      },
+      "section_break": "tall"
+    }
+  ],
+  "closing": {
+    "kicker": "Closing / Final Takeaway",
+    "title": "From Raw Data to Conversational Intelligence",
+    "line_1": "Raw data -> structured warehouse -> scalable analytics -> visualization -> conversational intelligence.",
+    "line_2": "SilkByte X Query turns infrastructure depth into accessible decision support.",
+    "line_3": "This is an end-to-end big data analytics product, not a standalone chatbot.",
+    "connect": "Final Connection: From coursework to production-style, explainable analytics interaction."
+  },
+  "finale_slot": {
+    "label": "Finale Visual: End-to-End Value Chain",
+    "type": "image",
+    "url": "assets/data_journey/generated/closing_value_chain_v2.png",
+    "caption": "Final story arc from distributed storage to conversational business action"
+  }
+}
